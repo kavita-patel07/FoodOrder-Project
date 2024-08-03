@@ -1,21 +1,29 @@
 import React from "react";
 
-export default function Restaurant() {
+export default function Restaurant({ restaurant }) {
   return (
     <div className="col-sm-12 col-md-6 col-lg-3 my-3">
       <div className="card p-3 rounded">
         <img
-          src="https://b.zmtcdn.com/data/pictures/chains/6/10506/ad13cee41f089a32fa0d854e658a2b9a.jpg?output-format=webp&fit=around|771.75:416.25&crop=771.75:416.25;*,*"
-          alt="Dominos"
+          src={restaurant.images[0].url}
+          alt={restaurant.name}
+          className="card-img-top mx-auto"
         />
         {/* {heading and address} */}
         <div className="card-body d-flex flex-column">
-          <h5 className="card-title">Dominos Pizza</h5>
-          <p className="rest-address">123 Street, Place, City-000000, State</p>
+          <h5 className="card-title">{restaurant.name}</h5>
+          <p className="rest-address">{}restaurant.address</p>
           {/* {reviews and rating} */}
-          <div className="rating-outer">
-            <div className="rating-inner"></div>
-            <span id="no_of_reviews">(140 reviews)</span>
+
+          <div className="ratings mt-auto">
+            <div className="rating-outer">
+              <div
+                className="rating-inner"
+                style={{ width: `${(restaurant.ratings / 5) * 100}%` }}
+              ></div>
+            </div>
+
+            <span id="no_of_reviews">({restaurant.numOfReviews}reviews)</span>
           </div>
         </div>
       </div>
