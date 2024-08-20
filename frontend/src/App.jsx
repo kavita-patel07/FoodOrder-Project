@@ -35,9 +35,11 @@ export default function App() {
             <Route path="/users/signup" element={<Register />} />
             <Route path="/users/me" element={<Profile />} />
             <Route path="/users/me/update" element={<UpdateProfile />} />
-            <Route path="/users/me/forgotPassword" element={<ForgotPassword/>} />
-            <Route path="/users/me/resetPassword/:token" element={<NewPassword/>} />
-
+            <Route path="/users/forgotPassword" element={<ForgotPassword />} />
+            <Route
+              path="/users/resetPassword/:token"
+              element={<NewPassword />}
+            />
           </Routes>
         </div>
 

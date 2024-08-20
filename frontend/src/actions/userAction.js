@@ -1,6 +1,9 @@
 import axios from "axios";
-import Header from "../components/layouts/Header";
 import {
+  CLEAR_ERRORS,
+  FORGOT_PASSWORD_FAIL,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
   LOAD_USER_FAIL,
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
@@ -8,23 +11,20 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
+  LOGOUT_SUCCESS,
+  NEW_PASSWORD_FAIL,
+  NEW_PASSWORD_REQUEST,
+  NEW_PASSWORD_SUCCESS,
   REGISTER_USER_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_FAIL,
-  UPDATE_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_REQUEST,
-  UPDATE_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_FAIL,
-  NEW_PASSWORD_REQUEST,
-  NEW_PASSWORD_SUCCESS,
-  NEW_PASSWORD_FAIL,
 } from "../constants/userConstant";
-
-import { CLEAR_ERROR } from "../constants/restaurantConstant";
 
 //Login
 export const login = (email, password) => async (dispatch) => {
@@ -47,7 +47,7 @@ export const login = (email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
-      payload: "Load Failed",
+      payload: "Login Failed",
     });
   }
 };
@@ -64,7 +64,8 @@ export const register = (userData) => async (dispatch) => {
       type: REGISTER_USER_SUCCESS,
       payload: data.data.user,
     });
-    return data.data.user;
+
+    return data.data.user; // useful if the calling function  needs this data
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
@@ -97,12 +98,12 @@ export const updateProfile = (userData) => async (dispatch) => {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
     const config = {
       headers: {
-        "Content-type": "multipart/form-data",
+        "Content-Type": "multipart/form-data",
       },
     };
 
     const { data } = await axios.put(
-      "/api/v1/user/me/update",
+      "/api/v1/users/me/update",
       userData,
       config
     );
@@ -121,7 +122,7 @@ export const logout = () => async (dispatch) => {
   try {
     await axios.get(`/api/v1/users/logout`);
     dispatch({
-      type: LOGIN_SUCCESS,
+      type: LOGOUT_SUCCESS,
     });
   } catch (error) {
     dispatch({
@@ -134,7 +135,7 @@ export const logout = () => async (dispatch) => {
 //clear Errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({
-    type: CLEAR_ERROR,
+    type: CLEAR_ERRORS,
   });
 };
 
@@ -157,7 +158,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      typr: UPDATE_PROFILE_FAIL,
+      type: UPDATE_PASSWORD_FAIL,
       payload: error.response.data.message,
     });
   }
@@ -197,7 +198,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
     const { data } = await axios.patch(
-      `/api/v1/users/resetPassword ${token}`,
+      `/api/v1/users/resetPassword/${token}`,
       passwords,
       config
     );
@@ -208,7 +209,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: NEW_PASSWORD_FAIL,
-      payload: error.response.data.manage,
+      payload: error.response.data.message,
     });
   }
 };
