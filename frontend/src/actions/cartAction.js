@@ -53,7 +53,7 @@ export const updateCartQuantity =
         foodItemId = foodItemId._id;
       }
 
-      const response = await axios.post("/ap/v1/eats/cart/update-cart-item", {
+      const response = await axios.post("/api/v1/eats/cart/update-cart-item", {
         userId: user._id,
         foodItemId: foodItemId,
         quantity,
@@ -70,11 +70,11 @@ export const updateCartQuantity =
 
 // Remove items from cart
 
-export const removeItemsFromCart =
+export const removeItemFromCart =
   (foodItemId) => async (dispatch, getState) => {
     try {
       const { user } = getState().auth;
-      
+
       if (typeof foodItemId === "object") {
         foodItemId = foodItemId._id;
       }
