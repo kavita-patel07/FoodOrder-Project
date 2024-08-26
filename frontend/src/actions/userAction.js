@@ -25,6 +25,7 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
 } from "../constants/userConstant";
+import { CLEAR_CART } from "../constants/cartConstant";
 
 //Login
 export const login = (email, password) => async (dispatch) => {
@@ -124,6 +125,7 @@ export const logout = () => async (dispatch) => {
     dispatch({
       type: LOGOUT_SUCCESS,
     });
+    dispatch({ type: CLEAR_CART }); //Clear cart when logout
   } catch (error) {
     dispatch({
       type: LOGOUT_FAIL,
