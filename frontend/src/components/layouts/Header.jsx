@@ -34,7 +34,7 @@ export default function Header() {
             Cart
           </span>
           <span className="ml-1" id="cart_count">
-            0
+            {cartItems.length}
           </span>
         </Link>
 
